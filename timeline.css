@@ -1,0 +1,439 @@
+.timeline-reference[data-timeline] {
+  position: relative;
+  width: 100%;
+  max-width: none;
+  padding: clamp(56px, 5vw, 74px) max(24px, calc((100vw - 1280px) / 2)) clamp(54px, 5vw, 72px);
+  scroll-margin-top: 96px;
+  color: #101a45;
+  background: #ffffff;
+}
+
+.timeline-reference[data-timeline] .timeline-head,
+.timeline-reference[data-timeline] .timeline-scroll {
+  position: relative;
+  z-index: 1;
+  width: min(1220px, 100%);
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.timeline-reference[data-timeline] .timeline-head {
+  max-width: 780px;
+  margin-bottom: 30px;
+  text-align: left;
+}
+
+.timeline-reference[data-timeline] .timeline-head h2 {
+  max-width: 680px;
+  margin: 0 0 10px;
+  color: #101a45;
+  font-size: clamp(1.9rem, 2.7vw, 2.55rem);
+  line-height: 1.08;
+  letter-spacing: 0;
+}
+
+.timeline-reference[data-timeline] .timeline-head p {
+  max-width: 700px;
+  margin: 0;
+  color: #596781;
+  font-size: clamp(0.94rem, 1vw, 1rem);
+  line-height: 1.58;
+}
+
+.timeline-scroll {
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 4px 0 10px;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+}
+
+.timeline-scroll::-webkit-scrollbar {
+  display: none;
+}
+
+.timeline-classic {
+  --top-row: 172px;
+  --marker-row: 44px;
+  --bottom-row: 224px;
+  --line-top: calc(var(--top-row) + (var(--marker-row) / 2));
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(6, minmax(178px, 1fr));
+  min-width: 1120px;
+  min-height: calc(var(--top-row) + var(--marker-row) + var(--bottom-row));
+  isolation: isolate;
+}
+
+.timeline-line {
+  position: absolute;
+  z-index: 0;
+  top: var(--line-top);
+  right: calc(100% / 12);
+  left: calc(100% / 12);
+  height: 3px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: #e7edf6;
+}
+
+.timeline-line span {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #b91c8c 0%, #8138ff 48%, #178bff 100%);
+}
+
+.timeline-event {
+  --event-delay: 120ms;
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-rows: var(--top-row) var(--marker-row) var(--bottom-row);
+  justify-items: center;
+  min-width: 0;
+  min-height: calc(var(--top-row) + var(--marker-row) + var(--bottom-row));
+  scroll-snap-align: center;
+}
+
+.timeline-event:nth-child(2) {
+  --event-delay: 180ms;
+}
+
+.timeline-event:nth-child(3) {
+  --event-delay: 330ms;
+}
+
+.timeline-event:nth-child(4) {
+  --event-delay: 480ms;
+}
+
+.timeline-event:nth-child(5) {
+  --event-delay: 630ms;
+}
+
+.timeline-event:nth-child(6) {
+  --event-delay: 780ms;
+}
+
+.timeline-event:nth-child(7) {
+  --event-delay: 930ms;
+}
+
+.timeline-event::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  width: 1px;
+  background: linear-gradient(180deg, rgba(129, 56, 255, 0.28), rgba(23, 139, 255, 0.14));
+  transform: translateX(-50%);
+}
+
+.timeline-event.is-top::before {
+  top: calc(var(--line-top) - 44px);
+  height: 36px;
+}
+
+.timeline-event.is-bottom::before {
+  top: calc(var(--line-top) + 14px);
+  height: 36px;
+}
+
+.timeline-card {
+  width: min(188px, calc(100% - 12px));
+  padding: 15px 15px 16px;
+  border: 1px solid rgba(18, 35, 75, 0.1);
+  border-radius: 17px;
+  background: #ffffff;
+  box-shadow: 0 14px 34px rgba(16, 26, 69, 0.065);
+  transition:
+    border-color 280ms ease,
+    box-shadow 280ms ease,
+    transform 280ms ease;
+}
+
+.timeline-event.is-top .timeline-card {
+  grid-row: 1;
+  align-self: end;
+  margin-bottom: 20px;
+}
+
+.timeline-event.is-bottom .timeline-card {
+  grid-row: 3;
+  align-self: start;
+  margin-top: 20px;
+}
+
+.timeline-card h3 {
+  margin: 0 0 7px;
+  color: #101a45;
+  font-size: 0.92rem;
+  font-weight: 950;
+  line-height: 1.25;
+}
+
+.timeline-card p {
+  margin: 0;
+  color: #5d6886;
+  font-size: 0.78rem;
+  line-height: 1.44;
+}
+
+.timeline-marker {
+  position: absolute;
+  top: var(--line-top);
+  left: 50%;
+  width: 118px;
+  height: 66px;
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+}
+
+.timeline-year {
+  position: absolute;
+  left: 50%;
+  color: #b91c8c;
+  font-size: 0.82rem;
+  font-weight: 950;
+  line-height: 1;
+  white-space: nowrap;
+  transform: translateX(-50%);
+  transition: color 260ms ease;
+}
+
+.timeline-event.is-top .timeline-year {
+  bottom: calc(50% + 16px);
+}
+
+.timeline-event.is-bottom .timeline-year {
+  top: calc(50% + 16px);
+}
+
+.timeline-dot {
+  display: block;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 17px;
+  height: 17px;
+  border: 3px solid #ffffff;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #b91c8c 0%, #8138ff 52%, #178bff 100%);
+  box-shadow:
+    0 0 0 1px rgba(129, 56, 255, 0.18),
+    0 10px 22px rgba(129, 56, 255, 0.2);
+  transform: translate(-50%, -50%);
+  transition:
+    box-shadow 260ms ease,
+    transform 260ms ease;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .timeline-event:hover .timeline-card {
+    border-color: rgba(129, 56, 255, 0.2);
+    box-shadow: 0 20px 46px rgba(16, 26, 69, 0.1);
+    transform: translateY(-4px);
+  }
+
+  .timeline-event.is-bottom:hover .timeline-card {
+    transform: translateY(4px);
+  }
+
+  .timeline-event:hover .timeline-dot {
+    box-shadow:
+      0 0 0 1px rgba(129, 56, 255, 0.2),
+      0 12px 28px rgba(129, 56, 255, 0.28);
+    transform: translate(-50%, -50%) scale(1.12);
+  }
+
+  .timeline-event:hover .timeline-year {
+    color: #8b2eff;
+  }
+}
+
+.timeline-reference[data-timeline].timeline-animated .timeline-head {
+  opacity: 0;
+  transform: translateY(18px);
+  transition:
+    opacity 900ms ease,
+    transform 900ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.timeline-reference[data-timeline].timeline-animated .timeline-line span {
+  width: 0;
+}
+
+.timeline-reference[data-timeline].timeline-animated.timeline-line-visible .timeline-line span {
+  width: 100%;
+  transition: width 2200ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.timeline-reference[data-timeline].timeline-animated .timeline-event::before,
+.timeline-reference[data-timeline].timeline-animated .timeline-dot,
+.timeline-reference[data-timeline].timeline-animated .timeline-year,
+.timeline-reference[data-timeline].timeline-animated .timeline-card {
+  opacity: 0;
+}
+
+.timeline-reference[data-timeline].timeline-animated .timeline-event::before {
+  transform: translateX(-50%) scaleY(0);
+  transform-origin: center;
+  transition:
+    opacity 620ms ease var(--event-delay),
+    transform 620ms cubic-bezier(0.22, 1, 0.36, 1) var(--event-delay);
+}
+
+.timeline-reference[data-timeline].timeline-animated .timeline-dot {
+  transform: translate(-50%, -50%) scale(0.74);
+  transition:
+    opacity 700ms ease var(--event-delay),
+    transform 700ms cubic-bezier(0.22, 1, 0.36, 1) var(--event-delay),
+    box-shadow 260ms ease;
+}
+
+.timeline-reference[data-timeline].timeline-animated .is-top .timeline-year {
+  transform: translate(-50%, 8px);
+}
+
+.timeline-reference[data-timeline].timeline-animated .is-bottom .timeline-year {
+  transform: translate(-50%, -8px);
+}
+
+.timeline-reference[data-timeline].timeline-animated .timeline-year {
+  transition:
+    opacity 700ms ease var(--event-delay),
+    transform 700ms cubic-bezier(0.22, 1, 0.36, 1) var(--event-delay),
+    color 260ms ease;
+}
+
+.timeline-reference[data-timeline].timeline-animated .timeline-card {
+  transition:
+    opacity 860ms ease var(--event-delay),
+    transform 860ms cubic-bezier(0.22, 1, 0.36, 1) var(--event-delay),
+    border-color 280ms ease,
+    box-shadow 280ms ease;
+}
+
+.timeline-reference[data-timeline].timeline-animated .is-top .timeline-card {
+  transform: translateY(-22px);
+}
+
+.timeline-reference[data-timeline].timeline-animated .is-bottom .timeline-card {
+  transform: translateY(22px);
+}
+
+.timeline-reference[data-timeline].timeline-animated .timeline-head.is-visible,
+.timeline-reference[data-timeline].timeline-animated .timeline-event.is-visible .timeline-card {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.timeline-reference[data-timeline].timeline-animated .timeline-event.is-visible::before {
+  opacity: 1;
+  transform: translateX(-50%) scaleY(1);
+}
+
+.timeline-reference[data-timeline].timeline-animated .timeline-event.is-visible .timeline-dot {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1);
+}
+
+.timeline-reference[data-timeline].timeline-animated .timeline-event.is-visible .timeline-year {
+  opacity: 1;
+  transform: translateX(-50%);
+}
+
+@media (max-width: 1100px) {
+  .timeline-reference[data-timeline] {
+    padding-right: 0;
+    padding-left: 0;
+  }
+
+  .timeline-reference[data-timeline] .timeline-head {
+    width: min(100% - 48px, 780px);
+  }
+
+  .timeline-scroll {
+    width: 100%;
+    padding-right: 24px;
+    padding-left: 24px;
+    mask-image: linear-gradient(90deg, transparent 0, #000 28px, #000 calc(100% - 44px), transparent 100%);
+  }
+
+  .timeline-classic {
+    grid-template-columns: repeat(6, 184px);
+    min-width: 1104px;
+    scroll-snap-type: x mandatory;
+  }
+}
+
+@media (max-width: 680px) {
+  .timeline-reference[data-timeline] {
+    padding-top: 48px;
+    padding-bottom: 54px;
+    scroll-margin-top: 88px;
+  }
+
+  .timeline-reference[data-timeline] .timeline-head {
+    width: calc(100% - 32px);
+    margin-bottom: 22px;
+  }
+
+  .timeline-reference[data-timeline] .timeline-head h2 {
+    font-size: clamp(1.72rem, 7.5vw, 2.15rem);
+  }
+
+  .timeline-reference[data-timeline] .timeline-head p {
+    font-size: 0.93rem;
+    line-height: 1.55;
+  }
+
+  .timeline-scroll {
+    padding-right: 16px;
+    padding-left: 16px;
+  }
+
+  .timeline-classic {
+    --top-row: 172px;
+    --bottom-row: 236px;
+    grid-template-columns: repeat(6, 186px);
+    min-width: 1116px;
+  }
+
+  .timeline-card {
+    width: 174px;
+    padding: 14px;
+  }
+
+  .timeline-card h3 {
+    font-size: 0.88rem;
+  }
+
+  .timeline-card p {
+    font-size: 0.75rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .timeline-reference[data-timeline].timeline-animated .timeline-head,
+  .timeline-reference[data-timeline].timeline-animated .timeline-event::before,
+  .timeline-reference[data-timeline].timeline-animated .timeline-dot,
+  .timeline-reference[data-timeline].timeline-animated .timeline-year,
+  .timeline-reference[data-timeline].timeline-animated .timeline-card,
+  .timeline-reference[data-timeline].timeline-animated .timeline-line span {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+
+  .timeline-reference[data-timeline].timeline-animated .timeline-line span {
+    width: 100%;
+  }
+
+  .timeline-card,
+  .timeline-dot,
+  .timeline-year {
+    transition: none;
+  }
+}
