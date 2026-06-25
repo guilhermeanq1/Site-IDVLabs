@@ -1,8 +1,10 @@
 .timeline-reference[data-timeline] {
   position: relative;
-  width: 100%;
-  max-width: none;
-  padding: clamp(56px, 5vw, 74px) max(24px, calc((100vw - 1280px) / 2)) clamp(54px, 5vw, 72px);
+  width: min(1360px, calc(100% - 48px)) !important;
+  max-width: 1360px !important;
+  margin-right: auto !important;
+  margin-left: auto !important;
+  padding: clamp(56px, 5vw, 74px) 0 clamp(54px, 5vw, 72px);
   scroll-margin-top: 96px;
   color: #101a45;
   background: #ffffff;
@@ -12,14 +14,14 @@
 .timeline-reference[data-timeline] .timeline-scroll {
   position: relative;
   z-index: 1;
-  width: min(1220px, 100%);
+  width: min(1360px, 100%);
   margin-right: auto;
   margin-left: auto;
 }
 
 .timeline-reference[data-timeline] .timeline-head {
   max-width: 780px;
-  margin-bottom: 30px;
+  margin-bottom: clamp(58px, 6vw, 82px);
   text-align: left;
 }
 
@@ -42,25 +44,37 @@
 
 .timeline-scroll {
   overflow-x: auto;
-  overflow-y: hidden;
-  padding: 4px 0 10px;
-  scrollbar-width: none;
-  -webkit-overflow-scrolling: touch;
+  overflow-y: visible;
+  padding: 18px 0 22px;
+  overscroll-behavior-x: contain;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(129, 56, 255, 0.35) rgba(16, 26, 69, 0.08);
 }
 
 .timeline-scroll::-webkit-scrollbar {
-  display: none;
+  height: 8px;
+}
+
+.timeline-scroll::-webkit-scrollbar-track {
+  border-radius: 999px;
+  background: rgba(16, 26, 69, 0.08);
+}
+
+.timeline-scroll::-webkit-scrollbar-thumb {
+  border-radius: 999px;
+  background: linear-gradient(90deg, rgba(185, 28, 140, 0.55), rgba(23, 139, 255, 0.55));
 }
 
 .timeline-classic {
-  --top-row: 172px;
+  --top-row: 190px;
   --marker-row: 44px;
-  --bottom-row: 224px;
+  --bottom-row: 322px;
   --line-top: calc(var(--top-row) + (var(--marker-row) / 2));
   position: relative;
   display: grid;
-  grid-template-columns: repeat(6, minmax(178px, 1fr));
-  min-width: 1120px;
+  grid-template-columns: repeat(6, minmax(214px, 1fr));
+  width: 100%;
+  min-width: 1284px;
   min-height: calc(var(--top-row) + var(--marker-row) + var(--bottom-row));
   isolation: isolate;
 }
@@ -92,9 +106,8 @@
   display: grid;
   grid-template-rows: var(--top-row) var(--marker-row) var(--bottom-row);
   justify-items: center;
-  min-width: 0;
+  min-width: 214px;
   min-height: calc(var(--top-row) + var(--marker-row) + var(--bottom-row));
-  scroll-snap-align: center;
 }
 
 .timeline-event:nth-child(2) {
@@ -141,8 +154,12 @@
 }
 
 .timeline-card {
-  width: min(188px, calc(100% - 12px));
-  padding: 15px 15px 16px;
+  width: clamp(220px, 84%, 270px);
+  min-width: 220px;
+  max-width: 270px;
+  min-height: auto;
+  padding: 17px 17px 18px;
+  overflow: visible;
   border: 1px solid rgba(18, 35, 75, 0.1);
   border-radius: 17px;
   background: #ffffff;
@@ -170,14 +187,20 @@
   color: #101a45;
   font-size: 0.92rem;
   font-weight: 950;
-  line-height: 1.25;
+  line-height: 1.28;
+  overflow-wrap: normal;
+  word-break: normal;
+  hyphens: auto;
 }
 
 .timeline-card p {
   margin: 0;
   color: #5d6886;
   font-size: 0.78rem;
-  line-height: 1.44;
+  line-height: 1.55;
+  overflow-wrap: normal;
+  word-break: normal;
+  hyphens: auto;
 }
 
 .timeline-marker {
@@ -345,39 +368,79 @@
 }
 
 @media (max-width: 1100px) {
-  .timeline-reference[data-timeline] {
-    padding-right: 0;
-    padding-left: 0;
-  }
-
   .timeline-reference[data-timeline] .timeline-head {
-    width: min(100% - 48px, 780px);
+    width: min(100%, 780px);
   }
 
   .timeline-scroll {
     width: 100%;
-    padding-right: 24px;
-    padding-left: 24px;
-    mask-image: linear-gradient(90deg, transparent 0, #000 28px, #000 calc(100% - 44px), transparent 100%);
+    overflow-x: auto;
+    overflow-y: visible;
+    padding-right: 2px;
+    padding-bottom: 26px;
   }
 
   .timeline-classic {
-    grid-template-columns: repeat(6, 184px);
-    min-width: 1104px;
-    scroll-snap-type: x mandatory;
+    --top-row: 202px;
+    --bottom-row: 344px;
+    grid-template-columns: repeat(6, minmax(214px, 1fr));
+    min-width: 1284px;
+  }
+
+  .timeline-card {
+    width: clamp(220px, 84%, 260px);
+    min-width: 220px;
+    max-width: 260px;
+    padding: 15px;
+  }
+
+  .timeline-card h3 {
+    font-size: 0.88rem;
+  }
+
+  .timeline-card p {
+    font-size: 0.75rem;
+    line-height: 1.5;
   }
 }
 
-@media (max-width: 680px) {
+@media (min-width: 761px) and (max-width: 1300px) {
+  .timeline-classic {
+    grid-template-columns: repeat(6, minmax(202px, 1fr));
+    min-width: 1212px;
+  }
+
+  .timeline-event {
+    min-width: 202px;
+  }
+
+  .timeline-card {
+    width: 202px;
+    min-width: 202px;
+    max-width: 202px;
+    padding: 14px;
+  }
+
+  .timeline-card h3 {
+    font-size: 0.84rem;
+  }
+
+  .timeline-card p {
+    font-size: 0.73rem;
+    line-height: 1.5;
+  }
+}
+
+@media (max-width: 760px) {
   .timeline-reference[data-timeline] {
+    width: calc(100% - 32px) !important;
     padding-top: 48px;
     padding-bottom: 54px;
     scroll-margin-top: 88px;
   }
 
   .timeline-reference[data-timeline] .timeline-head {
-    width: calc(100% - 32px);
-    margin-bottom: 22px;
+    margin-bottom: 34px;
   }
 
   .timeline-reference[data-timeline] .timeline-head h2 {
@@ -390,20 +453,79 @@
   }
 
   .timeline-scroll {
-    padding-right: 16px;
-    padding-left: 16px;
+    overflow-x: visible;
+    padding-bottom: 0;
   }
 
   .timeline-classic {
-    --top-row: 172px;
-    --bottom-row: 236px;
-    grid-template-columns: repeat(6, 186px);
-    min-width: 1116px;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 14px;
+    min-width: 0;
+    min-height: 0;
   }
 
-  .timeline-card {
-    width: 174px;
-    padding: 14px;
+  .timeline-line,
+  .timeline-event::before,
+  .timeline-marker {
+    display: none;
+  }
+
+  .timeline-event,
+  .timeline-event.is-top,
+  .timeline-event.is-bottom {
+    display: block;
+    min-height: 0;
+  }
+
+  .timeline-card,
+  .timeline-event.is-top .timeline-card,
+  .timeline-event.is-bottom .timeline-card {
+    width: 100%;
+    min-width: 0;
+    max-width: none;
+    margin: 0;
+    padding: 16px;
+  }
+
+  .timeline-card::before {
+    content: attr(data-year);
+  }
+
+  .timeline-event:nth-child(2) .timeline-card::before {
+    content: "2018";
+  }
+
+  .timeline-event:nth-child(3) .timeline-card::before {
+    content: "2019";
+  }
+
+  .timeline-event:nth-child(4) .timeline-card::before {
+    content: "2020";
+  }
+
+  .timeline-event:nth-child(5) .timeline-card::before {
+    content: "2021";
+  }
+
+  .timeline-event:nth-child(6) .timeline-card::before {
+    content: "2022–2023";
+  }
+
+  .timeline-event:nth-child(7) .timeline-card::before {
+    content: "2024–Atual";
+  }
+
+  .timeline-card::before {
+    display: inline-flex;
+    margin-bottom: 9px;
+    padding: 6px 10px;
+    color: #b91c8c;
+    font-size: 0.78rem;
+    font-weight: 950;
+    border-radius: 999px;
+    background: rgba(185, 28, 140, 0.08);
+    border: 1px solid rgba(185, 28, 140, 0.14);
   }
 
   .timeline-card h3 {
@@ -412,6 +534,7 @@
 
   .timeline-card p {
     font-size: 0.75rem;
+    line-height: 1.5;
   }
 }
 
@@ -435,5 +558,19 @@
   .timeline-dot,
   .timeline-year {
     transition: none;
+  }
+}
+
+/* Keep the Institutional timeline from inheriting older narrow container rules. */
+body.about-page.about-reference main > section.timeline-reference[data-timeline]:not(.hero) {
+  width: min(1360px, calc(100% - 48px)) !important;
+  max-width: 1360px !important;
+  padding-right: 0 !important;
+  padding-left: 0 !important;
+}
+
+@media (max-width: 760px) {
+  body.about-page.about-reference main > section.timeline-reference[data-timeline]:not(.hero) {
+    width: calc(100% - 32px) !important;
   }
 }

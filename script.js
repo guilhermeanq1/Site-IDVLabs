@@ -5,6 +5,81 @@ const clientTrack = document.querySelector("[data-client-track]");
 const metricsSection = document.querySelector("[data-metrics]");
 const timelineSection = document.querySelector("[data-timeline]");
 const missionSection = document.querySelector("[data-mission-section]");
+const servicePillarsSection = document.querySelector("[data-service-pillars]");
+const contactRevealItems = [...document.querySelectorAll("[data-contact-reveal]")];
+const copyTemplateButton = document.querySelector("[data-copy-template]");
+const contactModal = document.querySelector("[data-contact-modal]");
+const openContactInstructionsButtons = [...document.querySelectorAll("[data-open-contact-instructions]")];
+const closeContactInstructionsButtons = [...document.querySelectorAll("[data-close-contact-instructions]")];
+const contactForms = [...document.querySelectorAll("[data-contact-form]")];
+const eventsGalleryRoot = document.querySelector("[data-events-gallery]");
+
+const updateActiveNavigation = () => {
+  if (!nav) return;
+
+  const currentFile = window.location.pathname.split("/").pop() || "index.html";
+  const isHome = currentFile === "index.html";
+  const activeTarget = isHome
+    ? window.location.hash === "#comunicacao"
+      ? "#comunicacao"
+      : "#inicio"
+    : currentFile;
+
+  nav.querySelectorAll("a").forEach((link) => {
+    const href = link.getAttribute("href") || "";
+    const linkFile = href.split("#")[0] || "index.html";
+    const isActive =
+      (isHome && href === activeTarget) ||
+      (!isHome && linkFile === currentFile);
+
+    if (isActive) {
+      link.setAttribute("aria-current", "page");
+    } else {
+      link.removeAttribute("aria-current");
+    }
+  });
+};
+
+updateActiveNavigation();
+window.addEventListener("hashchange", updateActiveNavigation);
+
+const eventsGalleryItems = [
+  {
+    title: "Palestras e conteúdo",
+    description: "Registros dos conteúdos executivos e conversas com especialistas.",
+    image: "",
+    type: "conteúdo",
+    icon: "presentation"
+  },
+  {
+    title: "Café da manhã executivo",
+    description: "Momentos de acolhimento, conversa e aproximação.",
+    image: "",
+    type: "acolhimento",
+    icon: "coffee"
+  },
+  {
+    title: "Networking",
+    description: "Conexões entre lideranças, empresas e profissionais.",
+    image: "",
+    type: "conexões",
+    icon: "network"
+  },
+  {
+    title: "Conexões e relacionamento",
+    description: "Interações que fortalecem parcerias e oportunidades.",
+    image: "",
+    type: "relacionamento",
+    icon: "heart-handshake"
+  },
+  {
+    title: "Momentos com especialistas",
+    description: "Trocas práticas com quem lidera transformação digital.",
+    image: "",
+    type: "especialistas",
+    icon: "user-round-check"
+  }
+];
 
 const clients = [
   ["Grupo Fleury", "fleury", "<small>Grupo</small><strong>Fleury</strong>"],
@@ -12,7 +87,7 @@ const clients = [
   ["Mozaiko", "mozaiko", "<strong>mozaiko</strong>"],
   ["LWSA", "lwsa", "<strong>lwsa</strong>"],
   ["Sodexo", "sodexo", "<strong>sodexo</strong>"],
-  ["Cidade Ágil", "agil", "<small>Cidade</small><strong>ÁGIL</strong>"],
+  ["Cidade Ágil Consultoria", "agil", "<small>Cidade</small><strong>ÁGIL</strong>"],
   ["VINCI", "vinci", "<strong>VINCI</strong>"],
   ["FIA Business School", "fia", "<strong>FIA</strong><small>Business School</small>"],
   ["Agrex do Brasil", "agrex", "<strong>AGREX</strong><small>do Brasil</small>"],
@@ -41,8 +116,9 @@ const clients = [
   ["Craft", "craft", "<strong>Craft</strong>"],
   ["Eureciclo", "eureciclo", "<strong>eureciclo</strong>"],
   ["Veritas", "veritas", "<strong>VERITAS</strong>"],
+  ["TO Brasil", "tobrasil", "<strong>TO Brasil</strong>"],
   ["PwC", "pwc", "<strong>pwc</strong>"],
-  ["Zapps", "zapps", "<strong>zapps</strong>"],
+  ["Zapppts", "zapppts", "<strong>zapppts</strong>"],
   ["iProcess", "iprocess", "<strong>i</strong><em>process</em>"],
   ["Trisul", "trisul", "<strong>TRISUL</strong>"],
   ["PGE Bahia", "pge", "<strong>PGE</strong><small>Procuradoria Geral do Estado da Bahia</small>"],
@@ -55,7 +131,7 @@ const clients = [
 const clientDomains = {
   fleury: "grupofleury.com.br",
   exata: "exatabrasil.com.br",
-  mozaiko: "mozaiko.com.br",
+  mozaiko: "mozaiko.io",
   lwsa: "lwsa.com.br",
   sodexo: "sodexo.com.br",
   agil: "cidadeagil.com.br",
@@ -71,13 +147,13 @@ const clientDomains = {
   butantan: "butantan.gov.br",
   gen: "grupogen.com.br",
   mulheres: "grupomulheresdobrasil.org.br",
-  medmep: "medmep.com.br",
+  medmep: "medmep.com",
   tmg: "tmg.agr.br",
   "grupo-a": "grupo-a.com.br",
   martinho: "saomartinho.com.br",
   taking: "grupotaking.com.br",
   agrivalle: "agrivalle.com.br",
-  aiknow: "aiknow.com.br",
+  aiknow: "aiknow.ai",
   uniodonto: "uniodonto.coop.br",
   embrapa: "embrapa.br",
   aqua: "aqua.capital",
@@ -87,8 +163,9 @@ const clientDomains = {
   craft: "craft.com.br",
   eureciclo: "eureciclo.com.br",
   veritas: "veritas.com",
+  tobrasil: "tobrasil.com.br",
   pwc: "pwc.com",
-  zapps: "zapps.com.br",
+  zapppts: "zapppts.com.br",
   iprocess: "iprocess.com.br",
   trisul: "trisul-sa.com.br",
   pge: "pge.ba.gov.br",
@@ -97,6 +174,127 @@ const clientDomains = {
   ibmec: "ibmec.br",
   puc: "pucsp.br"
 };
+
+const clientLogoAssets = {
+  fleury: "assets/clientes/grupo-fleury.svg",
+  exata: "assets/clientes/exata-brasil.png",
+  mozaiko: "assets/clientes/mozaiko.webp",
+  lwsa: "assets/clientes/lwsa.svg",
+  sodexo: "assets/clientes/sodexo.png",
+  agil: "assets/clientes/cidade-agil.png",
+  vinci: "assets/clientes/vinci.jpg",
+  fia: "assets/clientes/fia-business-school.png",
+  agrex: "assets/clientes/agrex-do-brasil.svg",
+  trademaster: "assets/clientes/trademaster-mark.png",
+  cnh: "assets/clientes/cnh-industrial.svg",
+  lindt: "assets/clientes/lindt.png",
+  ggn: "assets/clientes/ggn.png",
+  bv: "assets/clientes/bv.png",
+  butantan: "assets/clientes/instituto-butantan.png",
+  gen: "assets/clientes/gen-mark.png",
+  mulheres: "assets/clientes/grupo-mulheres-do-brasil.png",
+  medmep: "assets/clientes/medmep-linkedin.jpg",
+  tmg: "assets/clientes/tmg.png",
+  martinho: "assets/clientes/sao-martinho.png",
+  taking: "assets/clientes/taking-mark.png",
+  agrivalle: "assets/clientes/agrivalle-offwhite.png",
+  aiknow: "assets/clientes/aiknow.ico",
+  uniodonto: "assets/clientes/uniodonto.png",
+  embrapa: "assets/clientes/embrapa.png",
+  aqua: "assets/clientes/aqua-capital.png",
+  icolab: "assets/clientes/icolab-mark.png",
+  demarest: "assets/clientes/demarest.svg",
+  mcio: "assets/clientes/mcio-brasil.png",
+  craft: "assets/clientes/craft-linkedin.jpg",
+  eureciclo: "assets/clientes/eureciclo.svg",
+  veritas: "assets/clientes/veritas.png",
+  tobrasil: "assets/clientes/to-brasil.jpg",
+  pwc: "assets/clientes/pwc.svg",
+  iprocess: "assets/clientes/iprocess.png",
+  trisul: "assets/clientes/trisul.svg",
+  bunge: "assets/clientes/bunge.svg",
+  abinc: "assets/clientes/abinc-mark.png",
+  ibmec: "assets/clientes/ibmec.svg",
+  puc: "assets/clientes/puc-sp.png"
+};
+
+const clientLogosWithLabel = new Set([
+  "mozaiko",
+  "trademaster",
+  "send",
+  "gen",
+  "grupo-a",
+  "taking",
+  "aiknow",
+  "icolab",
+  "craft",
+  "zapppts",
+  "pge",
+  "abinc"
+]);
+
+clients.splice(
+  0,
+  clients.length,
+  ["Exata Brasil", "exata"],
+  ["LWSA", "lwsa"],
+  ["Sodexo", "sodexo"],
+  ["FIA Business School", "fia"],
+  ["Agrex do Brasil", "agrex"],
+  ["Lindt", "lindt"],
+  ["Instituto Butantan", "butantan"],
+  ["MedMep", "medmep"],
+  ["Gimi", "gimi"],
+  ["Aqua Capital", "aqua"],
+  ["Demarest", "demarest"],
+  ["eureciclo", "eureciclo"],
+  ["VR", "vr"],
+  ["Cyrela", "cyrela"],
+  ["Luckscolor", "luckscolor"],
+  ["Poliedro", "poliedro"]
+);
+
+Object.keys(clientDomains).forEach((slug) => delete clientDomains[slug]);
+Object.assign(clientDomains, {
+  exata: "exatabrasil.com.br",
+  lwsa: "lwsa.com.br",
+  sodexo: "sodexo.com.br",
+  fia: "fia.com.br",
+  agrex: "agrex.com.br",
+  lindt: "lindt.com.br",
+  butantan: "butantan.gov.br",
+  medmep: "medmep.com",
+  gimi: "gimi.com.br",
+  aqua: "aqua.capital",
+  demarest: "demarest.com.br",
+  eureciclo: "eureciclo.com.br",
+  vr: "vr.com.br",
+  cyrela: "cyrela.com.br",
+  luckscolor: "luckscolor.com.br",
+  poliedro: "sistemapoliedro.com.br"
+});
+
+Object.keys(clientLogoAssets).forEach((slug) => delete clientLogoAssets[slug]);
+Object.assign(clientLogoAssets, {
+  exata: "assets/clientes/exata-brasil.png",
+  lwsa: "assets/clientes/lwsa.svg",
+  sodexo: "assets/clientes/sodexo.png",
+  fia: "assets/clientes/fia-business-school.png",
+  agrex: "assets/clientes/agrex-do-brasil.svg",
+  lindt: "assets/clientes/lindt.png",
+  butantan: "assets/clientes/instituto-butantan.png",
+  medmep: "assets/clientes/medmep-linkedin.jpg",
+  gimi: "assets/clientes/gimi.png",
+  aqua: "assets/clientes/aqua-capital.png",
+  demarest: "assets/clientes/demarest.svg",
+  eureciclo: "assets/clientes/eureciclo.svg",
+  vr: "assets/clientes/vr.png",
+  cyrela: "assets/clientes/cyrela.svg",
+  luckscolor: "assets/clientes/luckscolor.png",
+  poliedro: "assets/clientes/poliedro.svg"
+});
+
+clientLogosWithLabel.clear();
 
 const fallbackIcons = {
   "arrow-right": '<path d="M5 12h14"/><path d="m13 6 6 6-6 6"/>',
@@ -149,27 +347,85 @@ function renderIcons() {
 function renderClientCarousel() {
   if (!clientTrack) return;
 
-  const repeatedClients = [...clients, ...clients];
-  clientTrack.innerHTML = repeatedClients
-    .map(([label, slug, html], index) => {
+  const marqueeClients = [...clients, ...clients];
+  clientTrack.innerHTML = marqueeClients
+    .map(([label, slug], index) => {
+      const sources = getClientLogoSources(slug);
       const hidden = index >= clients.length ? ' aria-hidden="true"' : "";
-      const domain = clientDomains[slug];
-      const logo = domain ? `https://logo.clearbit.com/${domain}?size=220` : "";
-      const fallback = domain ? `https://www.google.com/s2/favicons?domain=${domain}&sz=128` : "";
-      const image = logo
-        ? `<img class="client-image" src="${logo}" data-fallback="${fallback}" alt="" loading="eager" decoding="async" onerror="this.onerror=null;this.src=this.dataset.fallback;this.classList.add('is-favicon')" />`
+      const labeled = clientLogosWithLabel.has(slug) ? " client-labeled" : "";
+      const image = sources.length
+        ? `<img class="client-image" src="${sources[0]}" data-sources="${sources.join("|")}" data-source-index="0" alt="Logo ${label}" loading="eager" decoding="async" />`
         : "";
-      return `<span class="client-logo client-${slug}" role="img" aria-label="${label}"${hidden}>${image}<span class="client-symbol"></span><span class="client-wordmark">${html}</span></span>`;
+      return `<span class="client-logo client-${slug}${labeled}" role="img" aria-label="${label}"${hidden}>${image}<span class="client-name">${label}</span></span>`;
     })
     .join("");
 
-  window.setTimeout(() => {
-    document.querySelectorAll(".client-image").forEach((image) => {
-      if (image.complete && image.naturalWidth > 0) return;
-      image.src = image.dataset.fallback;
-      image.classList.add("is-favicon");
-    });
-  }, 2400);
+  attachClientLogoFallbacks();
+}
+
+function getClientLogoSources(slug) {
+  const sources = [];
+  const localLogo = clientLogoAssets[slug];
+
+  if (localLogo) sources.push(localLogo);
+
+  return sources;
+}
+
+function attachClientLogoFallbacks() {
+  clientTrack.querySelectorAll(".client-logo").forEach((card) => {
+    const image = card.querySelector(".client-image");
+
+    if (!image) {
+      card.classList.add("logo-missing");
+      return;
+    }
+
+    const showLogo = () => card.classList.add("has-logo");
+    const showName = () => {
+      image.remove();
+      card.classList.add("logo-missing");
+    };
+    const tryNextSource = () => {
+      const sources = (image.dataset.sources || "").split("|").filter(Boolean);
+      const currentIndex = Number(image.dataset.sourceIndex || 0);
+      const nextIndex = currentIndex + 1;
+
+      if (nextIndex < sources.length) {
+        image.dataset.sourceIndex = String(nextIndex);
+        image.src = sources[nextIndex];
+        return;
+      }
+
+      showName();
+    };
+
+    image.addEventListener("load", showLogo, { once: true });
+    image.addEventListener("error", tryNextSource);
+
+    if (image.complete) {
+      if (image.naturalWidth > 0) showLogo();
+      else tryNextSource();
+    }
+  });
+}
+
+function initClientMarqueePause() {
+  const carousel = document.querySelector("[data-client-carousel]");
+  if (!carousel || !clientTrack) return;
+
+  const pause = () => {
+    clientTrack.style.animationPlayState = "paused";
+  };
+  const resume = () => {
+    clientTrack.style.animationPlayState = "";
+  };
+
+  carousel.addEventListener("mouseenter", pause);
+  carousel.addEventListener("mouseleave", resume);
+  carousel.addEventListener("focusin", pause);
+  carousel.addEventListener("focusout", resume);
+  carousel.addEventListener("touchstart", pause, { passive: true });
 }
 
 function formatMetric(value, prefix = "", suffix = "") {
@@ -338,6 +594,260 @@ function initMissionAnimation() {
   missionTargets.forEach((target) => observer.observe(target));
 }
 
+function initServicePillarsAnimation() {
+  if (!servicePillarsSection) return;
+
+  const reducedMotion = window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
+  const items = [...servicePillarsSection.querySelectorAll("[data-service-pillar-item]")];
+  let hasAnimated = false;
+  let lastScrollY = window.scrollY;
+
+  const reveal = () => {
+    if (hasAnimated) return;
+    hasAnimated = true;
+    servicePillarsSection.classList.add("is-visible");
+
+    items.forEach((item, index) => {
+      window.setTimeout(() => {
+        item.classList.add("is-visible");
+      }, reducedMotion ? 0 : index * 220);
+    });
+  };
+
+  if (reducedMotion || !("IntersectionObserver" in window)) {
+    reveal();
+    return;
+  }
+
+  const observer = new IntersectionObserver(
+    (entries) => {
+      const currentScrollY = window.scrollY;
+      const isScrollingDown = currentScrollY > lastScrollY;
+      lastScrollY = currentScrollY;
+
+      if (!isScrollingDown || !entries.some((entry) => entry.isIntersecting)) return;
+      reveal();
+      observer.disconnect();
+    },
+    {
+      rootMargin: "0px 0px -15% 0px",
+      threshold: 0.18
+    }
+  );
+
+  observer.observe(servicePillarsSection);
+}
+
+function initContactReveals() {
+  if (!contactRevealItems.length) return;
+
+  const reducedMotion = window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
+
+  if (reducedMotion || !("IntersectionObserver" in window)) {
+    contactRevealItems.forEach((target) => target.classList.add("is-visible"));
+    return;
+  }
+
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add("is-visible");
+        observer.unobserve(entry.target);
+      });
+    },
+    {
+      rootMargin: "0px 0px -12% 0px",
+      threshold: 0.16
+    }
+  );
+
+  contactRevealItems.forEach((target) => observer.observe(target));
+}
+
+function initEmailTemplateCopy() {
+  if (!copyTemplateButton) return;
+
+  const template = document.querySelector("[data-email-template]");
+  const feedback = document.querySelector("[data-copy-feedback]");
+
+  copyTemplateButton.addEventListener("click", async () => {
+    const text = template?.textContent?.trim();
+    if (!text) return;
+
+    try {
+      if (navigator.clipboard?.writeText) {
+        await navigator.clipboard.writeText(text);
+      } else {
+        const textarea = document.createElement("textarea");
+        textarea.value = text;
+        textarea.setAttribute("readonly", "");
+        textarea.style.position = "fixed";
+        textarea.style.opacity = "0";
+        document.body.appendChild(textarea);
+        textarea.select();
+        document.execCommand("copy");
+        textarea.remove();
+      }
+
+      if (feedback) {
+        feedback.textContent = "Modelo copiado!";
+        window.setTimeout(() => {
+          feedback.textContent = "";
+        }, 2200);
+      }
+    } catch {
+      if (feedback) {
+        feedback.textContent = "Não foi possível copiar agora.";
+      }
+    }
+  });
+}
+
+function initContactInstructionsModal() {
+  if (!contactModal || !openContactInstructionsButtons.length) return;
+
+  const panel = contactModal.querySelector(".contact-modal-panel");
+  let lastFocusedElement = null;
+
+  const openModal = () => {
+    lastFocusedElement = document.activeElement;
+    contactModal.hidden = false;
+    document.body.classList.add("modal-open");
+    window.requestAnimationFrame(() => {
+      contactModal.classList.add("is-open");
+      panel?.focus();
+    });
+  };
+
+  const closeModal = () => {
+    contactModal.classList.remove("is-open");
+    document.body.classList.remove("modal-open");
+    window.setTimeout(() => {
+      contactModal.hidden = true;
+      lastFocusedElement?.focus?.();
+    }, 220);
+  };
+
+  openContactInstructionsButtons.forEach((button) => {
+    button.addEventListener("click", openModal);
+  });
+
+  closeContactInstructionsButtons.forEach((button) => {
+    button.addEventListener("click", closeModal);
+  });
+
+  document.addEventListener("keydown", (event) => {
+    if (contactModal.hidden || event.key !== "Escape") return;
+    closeModal();
+  });
+}
+
+function initContactForms() {
+  if (!contactForms.length) return;
+
+  const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  const fieldLabels = {
+    name: "Nome",
+    email: "E-mail",
+    phone: "Telefone/WhatsApp",
+    company: "Empresa",
+    interest: "Área de interesse",
+    message: "Mensagem"
+  };
+
+  const getValue = (form, name) => form.elements[name]?.value?.trim() || "";
+
+  const setFieldError = (form, name, message = "") => {
+    const field = form.elements[name];
+    const error = form.querySelector(`[data-error-for="${name}"]`);
+    const wrapper = field?.closest(".contact-field");
+
+    wrapper?.classList.toggle("has-error", Boolean(message));
+    field?.setAttribute("aria-invalid", String(Boolean(message)));
+    if (error) error.textContent = message;
+  };
+
+  const clearErrors = (form) => {
+    ["name", "email", "phone", "company", "interest", "message"].forEach((name) => setFieldError(form, name));
+  };
+
+  const validateForm = (form) => {
+    clearErrors(form);
+    const errors = {};
+
+    if (!getValue(form, "name")) errors.name = "Informe seu nome.";
+    if (!emailPattern.test(getValue(form, "email"))) errors.email = "Informe um e-mail válido.";
+    if (!getValue(form, "phone")) errors.phone = "Informe seu telefone ou WhatsApp.";
+    if (!getValue(form, "interest")) errors.interest = "Selecione uma área de interesse.";
+    if (!getValue(form, "message")) errors.message = "Escreva uma breve mensagem.";
+
+    Object.entries(errors).forEach(([name, message]) => setFieldError(form, name, message));
+    return Object.keys(errors).length === 0;
+  };
+
+  const buildMailto = (form) => {
+    const body = ["name", "email", "phone", "company", "interest", "message"]
+      .map((name) => `${fieldLabels[name]}:\n${getValue(form, name) || "-"}`)
+      .join("\n\n");
+
+    const subject = encodeURIComponent("Contato pelo site | IDVLabs");
+    return `mailto:comercial@idvlabs.com.br?subject=${subject}&body=${encodeURIComponent(body)}`;
+  };
+
+  contactForms.forEach((form) => {
+    const success = form.querySelector("[data-contact-form-success]");
+
+    form.addEventListener("submit", (event) => {
+      event.preventDefault();
+      if (success) success.hidden = true;
+
+      if (!validateForm(form)) {
+        const firstInvalid = form.querySelector("[aria-invalid='true']");
+        firstInvalid?.focus();
+        return;
+      }
+
+      if (success) success.hidden = false;
+      window.location.href = buildMailto(form);
+      form.reset();
+    });
+
+    form.addEventListener("input", (event) => {
+      const field = event.target.closest("input, select, textarea");
+      if (!field?.name) return;
+      if (success) success.hidden = true;
+      setFieldError(form, field.name);
+    });
+
+    form.addEventListener("change", (event) => {
+      const field = event.target.closest("select");
+      if (!field?.name) return;
+      if (success) success.hidden = true;
+      setFieldError(form, field.name);
+    });
+  });
+}
+
+function renderEventsGallery() {
+  if (!eventsGalleryRoot) return;
+
+  eventsGalleryRoot.innerHTML = eventsGalleryItems
+    .map(
+      (item, index) => `
+        <article class="${index === 0 ? "events-gallery-feature" : ""} ${item.image ? "has-image" : ""}">
+          <div class="events-gallery-thumb"${item.image ? ` style="background-image: linear-gradient(180deg, rgba(7, 18, 60, 0.12), rgba(7, 18, 60, 0.32)), url('${item.image}')"` : ""}>
+            ${item.image ? "" : `<i data-lucide="${item.icon}"></i>`}
+            <span>${item.type}</span>
+          </div>
+          <h3>${item.title}</h3>
+          <p>${item.description}</p>
+        </article>
+      `
+    )
+    .join("");
+}
+
 function paintHeader() {
   header.classList.toggle("scrolled", window.scrollY > 16);
 }
@@ -364,8 +874,16 @@ nav?.addEventListener("click", (event) => {
 
 window.addEventListener("DOMContentLoaded", () => {
   renderClientCarousel();
+  initClientMarqueePause();
   renderIcons();
   initMetricsAnimation();
   initMissionAnimation();
   initTimelineAnimation();
+  initServicePillarsAnimation();
+  initContactReveals();
+  initEmailTemplateCopy();
+  initContactInstructionsModal();
+  initContactForms();
+  renderEventsGallery();
+  renderIcons();
 });

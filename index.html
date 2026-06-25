@@ -8,10 +8,9 @@
       content="IDVLabs: transformamos inteligência artificial em vantagem competitiva para líderes e empresas."
     />
     <title>IDVLabs | Inteligência artificial para líderes</title>
-    <link rel="stylesheet" href="styles.css?v=65" />
-    <link rel="stylesheet" href="event-banner.css?v=2" />
+    <link rel="stylesheet" href="styles.css?v=111" />
     <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js" defer></script>
-    <script src="script.js?v=56" defer></script>
+    <script src="script.js?v=69" defer></script>
   </head>
   <body>
     <header class="topbar" data-header>
@@ -24,15 +23,16 @@
       </button>
 
       <nav class="main-nav" data-nav>
-        <a href="#inicio">Home</a>
+        <a href="#inicio" aria-current="page">Home</a>
         <a href="quem-somos.html">Institucional</a>
         <a href="servicos.html">Serviços</a>
-        <a href="#eventos">Eventos</a>
+        <a href="eventos.html">Eventos</a>
+        <a href="https://influo.me/" target="_blank" rel="noopener noreferrer">Produtos</a>
         <a href="#comunicacao">Comunicacao</a>
       </nav>
 
       <div class="header-actions">
-        <a class="header-cta" href="#contato">
+        <a class="header-cta" href="fale-conosco.html">
           Fale conosco
           <i data-lucide="arrow-right"></i>
         </a>
@@ -41,26 +41,31 @@
 
     <main>
       <section class="hero" id="inicio">
+        <video class="home-hero-video" autoplay muted loop playsinline preload="metadata" poster="assets/home-hero-ai.png">
+          <source src="assets/videos/home-hero.mp4" type="video/mp4" />
+        </video>
         <div class="hero-bg" aria-hidden="true"></div>
-        <div class="hero-glow" aria-hidden="true"></div>
 
         <div class="hero-inner">
           <div class="hero-copy">
             <h1>
-              Transformamos
-              <span>inteligência artificial</span>
-              em vantagem competitiva.
+              IA, inovação e
+              <span>disrupção</span>
+              gerando valor real.
             </h1>
+            <p>
+              Apoiamos empresas na jornada de transformação com Dados, Inteligência Artificial, Governança e Tecnologia,
+              conectando estratégia, execução e ROI.
+            </p>
 
             <div class="hero-actions">
-              <a class="button gradient" href="#programas">
-                Explorar programas
+              <a class="button gradient" href="#solucoes">
+                Conhecer pilares
                 <i data-lucide="arrow-right"></i>
               </a>
             </div>
           </div>
 
-          <div class="hero-cards" aria-hidden="true"></div>
         </div>
       </section>
 
@@ -108,24 +113,24 @@
 
         <div class="pillar-grid">
           <article class="pillar-card">
-            <i data-lucide="chart-no-axes-combined"></i>
-            <h3>Governança de IA e Dados</h3>
-            <p>Estrutura robusta para garantir segurança, compliance e ética em IA, com processos de gestão de riscos e qualidade dos dados.</p>
+            <i data-lucide="target"></i>
+            <h3>Plano Estratégico Inovação (IA)</h3>
+            <p>Assessment, maturidade em IA e Dados, quick wins e roadmap estratégico para transformar IA em resultado real.</p>
           </article>
           <article class="pillar-card">
-            <i data-lucide="brain-circuit"></i>
+            <i data-lucide="rocket"></i>
             <h3>Projetos de Alto Impacto</h3>
-            <p>Desenvolvimento e implementação de soluções customizadas que geram resultados mensuráveis em Dados, IA e Web/Mobile.</p>
+            <p>Soluções customizadas em IA, Dados e tecnologia, combinando métodos ágeis e expertise técnica para gerar valor mensurável.</p>
+          </article>
+          <article class="pillar-card">
+            <i data-lucide="shield-check"></i>
+            <h3>Governança de IA e Dados</h3>
+            <p>Governança, segurança, compliance, ética, gestão de riscos e qualidade dos dados para iniciativas de IA confiáveis.</p>
           </article>
           <article class="pillar-card">
             <i data-lucide="graduation-cap"></i>
             <h3>Treinamento e Capacitação</h3>
-            <p>Programas de formação avançada em IA e Data Science, com treinamentos práticos alinhados às necessidades do negócio.</p>
-          </article>
-          <article class="pillar-card">
-            <i data-lucide="network"></i>
-            <h3>Integração Completa</h3>
-            <p>Abordagem de ponta a ponta: da cultura à implementação técnica, garantindo transformação digital com gestão da mudança.</p>
+            <p>Capacitação prática em IA, Dados e tecnologia para preparar equipes e lideranças para aplicar inovação com autonomia.</p>
           </article>
         </div>
       </section>
@@ -160,29 +165,10 @@
         </article>
       </section>
 
-      <section class="trusted section">
-        <h2>Alguns clientes</h2>
-        <div class="client-carousel" aria-label="Clientes IDVLabs">
+      <section class="trusted section trusted-clients">
+        <div class="client-carousel" aria-label="Clientes IDVLabs" data-client-carousel>
           <div class="client-track" data-client-track></div>
         </div>
-      </section>
-
-      <section class="section event-section" id="eventos">
-        <article class="event-banner">
-          <div class="event-bg" aria-hidden="true"></div>
-          <div class="event-logo">
-            <strong>web<br />summit</strong>
-          </div>
-          <div class="event-meta">
-            <span><i data-lucide="calendar-days"></i>Terça-feira, 9 de junho</span>
-            <span><i data-lucide="building-2"></i>Cabine A5-58</span>
-            <span><i data-lucide="map-pin"></i>ALPHA 5</span>
-          </div>
-          <a class="button light" href="#contato">
-            Visite nossa cabine
-            <i data-lucide="arrow-right"></i>
-          </a>
-        </article>
       </section>
 
       <section class="section content" id="comunicacao">
@@ -244,6 +230,13 @@
             <div>
               <span>Artigo</span>
               <h3>O Conselho nas Prestadoras de Serviço de Tecnologia e as Conselheiras</h3>
+              <a
+                href="https://www.linkedin.com/pulse/o-conselho-nas-prestadoras-de-servi%C3%A7o-tecnologia-e-t%C3%A2nia-mara-leal-xu3nf/"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Ler artigo <i data-lucide="arrow-right"></i>
+              </a>
             </div>
           </article>
           <article class="content-card">
@@ -262,19 +255,6 @@
               </a>
             </div>
           </article>
-        </div>
-      </section>
-
-      <section class="section final-cta" id="contato">
-        <div>
-          <h2>Transformamos líderes. Impulsionamos o futuro.</h2>
-          <p>IDVLabs é a escolha de quem lidera a transformação em TI.</p>
-        </div>
-        <div class="final-actions">
-          <a class="button gradient" href="mailto:comercial@idvlabs.com.br">
-            Fale conosco
-            <i data-lucide="arrow-right"></i>
-          </a>
         </div>
       </section>
     </main>
@@ -303,21 +283,23 @@
         <div>
           <h3>Institucional</h3>
           <a href="quem-somos.html">Quem somos</a>
-          <a href="#eventos">Eventos</a>
+          <a href="eventos.html">Eventos</a>
           <a href="#comunicacao">Conteúdos</a>
         </div>
         <div>
           <h3>Contato</h3>
           <a href="mailto:comercial@idvlabs.com.br">comercial@idvlabs.com.br</a>
-          <a href="tel:+5511999999999">(11) 9999-9999</a>
+          <a href="tel:+5511964372929">(11) 96437-2929</a>
           <div class="socials">
-            <i data-lucide="linkedin"></i>
+            <a href="https://www.linkedin.com/company/idvlabsbr/?viewAsMember=true" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn IDVLabs">
+              <i data-lucide="linkedin"></i>
+            </a>
             <i data-lucide="instagram"></i>
             <i data-lucide="youtube"></i>
           </div>
         </div>
       </div>
-      <a class="whatsapp" href="https://wa.me/5511999999999" aria-label="WhatsApp">
+      <a class="whatsapp" href="https://wa.me/5511964372929" aria-label="WhatsApp">
         <i data-lucide="message-circle"></i>
       </a>
     </footer>
