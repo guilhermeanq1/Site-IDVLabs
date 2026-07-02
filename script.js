@@ -14,6 +14,8 @@ const closeContactInstructionsButtons = [...document.querySelectorAll("[data-clo
 const contactForms = [...document.querySelectorAll("[data-contact-form]")];
 const eventsGalleryRoot = document.querySelector("[data-events-gallery]");
 
+document.documentElement.classList.add("js-enabled");
+
 const updateActiveNavigation = () => {
   if (!nav) return;
 
@@ -45,37 +47,37 @@ window.addEventListener("hashchange", updateActiveNavigation);
 
 const eventsGalleryItems = [
   {
-    title: "Palestras e conteúdo",
-    description: "Registros dos conteúdos executivos e conversas com especialistas.",
-    image: "",
-    type: "conteúdo",
+    title: "Palestras Executivas",
+    description: "Registros de palestras executivas e conversas com especialistas.",
+    image: "assets/eventos/palestras-governanca-ia.jpg",
+    type: "palestras",
     icon: "presentation"
   },
   {
-    title: "Café da manhã executivo",
-    description: "Momentos de acolhimento, conversa e aproximação.",
-    image: "",
-    type: "acolhimento",
-    icon: "coffee"
+    title: "Painel Executivo",
+    description: "Encontros pensados para gerar conversas relevantes e conexões de valor.",
+    image: "assets/eventos/ambiente-executivo-inovabra.jfif",
+    type: "experiência",
+    icon: "briefcase-business"
   },
   {
-    title: "Networking",
+    title: "Networking Qualificado",
     description: "Conexões entre lideranças, empresas e profissionais.",
-    image: "",
+    image: "assets/eventos/networking-inovabra.jfif",
     type: "conexões",
     icon: "network"
   },
   {
-    title: "Conexões e relacionamento",
+    title: "Conexões Estratégicas",
     description: "Interações que fortalecem parcerias e oportunidades.",
-    image: "",
+    image: "assets/eventos/conexoes-relacionamento-inovabra.jpg",
     type: "relacionamento",
     icon: "heart-handshake"
   },
   {
-    title: "Momentos com especialistas",
+    title: "Especialistas",
     description: "Trocas práticas com quem lidera transformação digital.",
-    image: "",
+    image: "assets/eventos/momentos-especialistas-inovabra.jpg",
     type: "especialistas",
     icon: "user-round-check"
   }
@@ -600,7 +602,8 @@ function initServicePillarsAnimation() {
   const reducedMotion = window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
   const items = [...servicePillarsSection.querySelectorAll("[data-service-pillar-item]")];
   let hasAnimated = false;
-  let lastScrollY = window.scrollY;
+  let observer;
+  servicePillarsSection.classList.add("is-animating");
 
   const reveal = () => {
     if (hasAnimated) return;
@@ -612,6 +615,29 @@ function initServicePillarsAnimation() {
         item.classList.add("is-visible");
       }, reducedMotion ? 0 : index * 220);
     });
+
+    if (observer) observer.disconnect();
+    window.removeEventListener("scroll", checkVisibility);
+    window.removeEventListener("resize", checkVisibility);
+  };
+
+  const isSectionInViewport = () => {
+    const sectionRect = servicePillarsSection.getBoundingClientRect();
+    return sectionRect.top < window.innerHeight * 0.92 && sectionRect.bottom > 80;
+  };
+
+  const revealAfterPaint = () => {
+    let prepared = false;
+    const prepare = () => {
+      if (prepared) return;
+      prepared = true;
+      servicePillarsSection.classList.add("is-ready");
+      window.requestAnimationFrame(reveal);
+      window.setTimeout(reveal, 80);
+    };
+
+    window.requestAnimationFrame(prepare);
+    window.setTimeout(prepare, 80);
   };
 
   if (reducedMotion || !("IntersectionObserver" in window)) {
@@ -619,23 +645,33 @@ function initServicePillarsAnimation() {
     return;
   }
 
-  const observer = new IntersectionObserver(
-    (entries) => {
-      const currentScrollY = window.scrollY;
-      const isScrollingDown = currentScrollY > lastScrollY;
-      lastScrollY = currentScrollY;
+  if (isSectionInViewport()) {
+    revealAfterPaint();
+    return;
+  }
 
-      if (!isScrollingDown || !entries.some((entry) => entry.isIntersecting)) return;
-      reveal();
-      observer.disconnect();
+  function checkVisibility() {
+    if (hasAnimated || !isSectionInViewport()) return;
+    revealAfterPaint();
+  }
+
+  observer = new IntersectionObserver(
+    (entries) => {
+      if (!entries.some((entry) => entry.isIntersecting)) return;
+      revealAfterPaint();
     },
     {
-      rootMargin: "0px 0px -15% 0px",
-      threshold: 0.18
+      rootMargin: "0px 0px -80px 0px",
+      threshold: 0.12
     }
   );
 
+  servicePillarsSection.classList.add("is-ready");
   observer.observe(servicePillarsSection);
+  window.addEventListener("scroll", checkVisibility, { passive: true });
+  window.addEventListener("resize", checkVisibility);
+  window.setTimeout(checkVisibility, 120);
+  window.setTimeout(checkVisibility, 900);
 }
 
 function initContactReveals() {
@@ -837,8 +873,7 @@ function renderEventsGallery() {
       (item, index) => `
         <article class="${index === 0 ? "events-gallery-feature" : ""} ${item.image ? "has-image" : ""}">
           <div class="events-gallery-thumb"${item.image ? ` style="background-image: linear-gradient(180deg, rgba(7, 18, 60, 0.12), rgba(7, 18, 60, 0.32)), url('${item.image}')"` : ""}>
-            ${item.image ? "" : `<i data-lucide="${item.icon}"></i>`}
-            <span>${item.type}</span>
+            ${item.image ? "" : `<i data-lucide="${item.icon}"></i><span>${item.type}</span>`}
           </div>
           <h3>${item.title}</h3>
           <p>${item.description}</p>

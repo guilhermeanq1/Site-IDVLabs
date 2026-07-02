@@ -1,7 +1,7 @@
 .timeline-reference[data-timeline] {
   position: relative;
-  width: min(1360px, calc(100% - 48px)) !important;
-  max-width: 1360px !important;
+  width: min(1220px, calc(100% - 48px)) !important;
+  max-width: 1220px !important;
   margin-right: auto !important;
   margin-left: auto !important;
   padding: clamp(56px, 5vw, 74px) 0 clamp(54px, 5vw, 72px);
@@ -14,13 +14,13 @@
 .timeline-reference[data-timeline] .timeline-scroll {
   position: relative;
   z-index: 1;
-  width: min(1360px, 100%);
+  width: 100%;
   margin-right: auto;
   margin-left: auto;
 }
 
 .timeline-reference[data-timeline] .timeline-head {
-  max-width: 780px;
+  max-width: none;
   margin-bottom: clamp(58px, 6vw, 82px);
   text-align: left;
 }
@@ -72,9 +72,9 @@
   --line-top: calc(var(--top-row) + (var(--marker-row) / 2));
   position: relative;
   display: grid;
-  grid-template-columns: repeat(6, minmax(214px, 1fr));
+  grid-template-columns: repeat(6, minmax(0, 1fr));
   width: 100%;
-  min-width: 1284px;
+  min-width: 0;
   min-height: calc(var(--top-row) + var(--marker-row) + var(--bottom-row));
   isolation: isolate;
 }
@@ -106,7 +106,7 @@
   display: grid;
   grid-template-rows: var(--top-row) var(--marker-row) var(--bottom-row);
   justify-items: center;
-  min-width: 214px;
+  min-width: 0;
   min-height: calc(var(--top-row) + var(--marker-row) + var(--bottom-row));
 }
 
@@ -154,9 +154,9 @@
 }
 
 .timeline-card {
-  width: clamp(220px, 84%, 270px);
-  min-width: 220px;
-  max-width: 270px;
+  width: min(92%, 220px);
+  min-width: 0;
+  max-width: 220px;
   min-height: auto;
   padding: 17px 17px 18px;
   overflow: visible;
@@ -369,7 +369,7 @@
 
 @media (max-width: 1100px) {
   .timeline-reference[data-timeline] .timeline-head {
-    width: min(100%, 780px);
+    width: 100%;
   }
 
   .timeline-scroll {
@@ -383,14 +383,14 @@
   .timeline-classic {
     --top-row: 202px;
     --bottom-row: 344px;
-    grid-template-columns: repeat(6, minmax(214px, 1fr));
-    min-width: 1284px;
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    min-width: 0;
   }
 
   .timeline-card {
-    width: clamp(220px, 84%, 260px);
-    min-width: 220px;
-    max-width: 260px;
+    width: min(94%, 190px);
+    min-width: 0;
+    max-width: 190px;
     padding: 15px;
   }
 
@@ -406,18 +406,18 @@
 
 @media (min-width: 761px) and (max-width: 1300px) {
   .timeline-classic {
-    grid-template-columns: repeat(6, minmax(202px, 1fr));
-    min-width: 1212px;
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    min-width: 0;
   }
 
   .timeline-event {
-    min-width: 202px;
+    min-width: 0;
   }
 
   .timeline-card {
-    width: 202px;
-    min-width: 202px;
-    max-width: 202px;
+    width: min(94%, 190px);
+    min-width: 0;
+    max-width: 190px;
     padding: 14px;
   }
 
@@ -563,8 +563,8 @@
 
 /* Keep the Institutional timeline from inheriting older narrow container rules. */
 body.about-page.about-reference main > section.timeline-reference[data-timeline]:not(.hero) {
-  width: min(1360px, calc(100% - 48px)) !important;
-  max-width: 1360px !important;
+  width: min(1220px, calc(100% - 48px)) !important;
+  max-width: 1220px !important;
   padding-right: 0 !important;
   padding-left: 0 !important;
 }
@@ -573,4 +573,8 @@ body.about-page.about-reference main > section.timeline-reference[data-timeline]
   body.about-page.about-reference main > section.timeline-reference[data-timeline]:not(.hero) {
     width: calc(100% - 32px) !important;
   }
+}
+
+body.about-page.about-reference main > section.timeline-reference[data-timeline] {
+  background: transparent !important;
 }
