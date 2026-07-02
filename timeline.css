@@ -505,15 +505,15 @@
   }
 
   .timeline-event:nth-child(5) .timeline-card::before {
-    content: "2021";
+    content: "2023";
   }
 
   .timeline-event:nth-child(6) .timeline-card::before {
-    content: "2022–2023";
+    content: "2024";
   }
 
   .timeline-event:nth-child(7) .timeline-card::before {
-    content: "2024–Atual";
+    content: "2026";
   }
 
   .timeline-card::before {
@@ -577,4 +577,14 @@ body.about-page.about-reference main > section.timeline-reference[data-timeline]
 
 body.about-page.about-reference main > section.timeline-reference[data-timeline] {
   background: transparent !important;
+}
+
+@media (min-width: 761px) {
+  body.about-page.about-reference main > section.timeline-reference[data-timeline] {
+    padding-bottom: clamp(18px, 2.5vw, 30px) !important;
+  }
+
+  body.about-page.about-reference main > section.timeline-reference[data-timeline] .timeline-classic {
+    --bottom-row: 220px;
+  }
 }

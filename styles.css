@@ -21087,3 +21087,28 @@ body.about-page.about-reference main {
     grid-template-columns: 44px minmax(0, 1fr);
   }
 }
+
+/* Institutional value section: closer to the timeline and aligned to the page container */
+.about-page.about-reference .value-real-section {
+  padding-top: clamp(12px, 2vw, 24px) !important;
+  padding-right: max(20px, calc((100vw - 1220px) / 2)) !important;
+  padding-left: max(20px, calc((100vw - 1220px) / 2)) !important;
+}
+
+.about-page.about-reference .value-real-head,
+.about-page.about-reference .value-real-grid {
+  width: min(100%, 1220px) !important;
+  margin-right: auto !important;
+  margin-left: auto !important;
+}
+
+.about-page.about-reference .value-real-head {
+  max-width: 1220px !important;
+  text-align: left !important;
+}
+
+.about-page.about-reference .value-real-head h2,
+.about-page.about-reference .value-real-head p {
+  margin-right: auto !important;
+  margin-left: 0 !important;
+}
